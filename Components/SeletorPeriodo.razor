@@ -1,0 +1,20 @@
+<MudSelect T="string"
+           Value="Valor"
+           ValueChanged="AoSelecionar"
+           Label="Período"
+           Variant="Variant.Outlined"
+           Margin="Margin.Dense"
+           Dense="true">
+    @foreach (var opcao in Opcoes)
+    {
+        <MudSelectItem T="string" Value="@opcao">@opcao</MudSelectItem>
+    }
+</MudSelect>
+
+@code {
+    [Parameter] public string Valor { get; set; } = "";
+    [Parameter] public EventCallback<string> ValorChanged { get; set; }
+    [Parameter, EditorRequired] public IReadOnlyList<string> Opcoes { get; set; } = [];
+
+    private Task AoSelecionar(string novoValor) => ValorChanged.InvokeAsync(novoValor);
+}

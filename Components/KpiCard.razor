@@ -1,0 +1,59 @@
+<MudPaper Class="pa-4 mud-height-full">
+    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Start">
+        <MudStack Spacing="1">
+            <MudText Typo="Typo.body2" Color="Color.Secondary">@Titulo</MudText>
+            <MudText Typo="Typo.h5">@Valor</MudText>
+            <MudStack Row="true" Spacing="1" AlignItems="AlignItems.Center">
+                <MudIcon Icon="@IconeVariacao" Color="@CorVariacao" Size="Size.Small" />
+                <MudText Typo="Typo.caption" Color="@CorVariacao">@TextoVariacao</MudText>
+                <MudText Typo="Typo.caption" Color="Color.Secondary">vs. mês anterior</MudText>
+            </MudStack>
+        </MudStack>
+        <MudAvatar Color="@Cor" Variant="Variant.Filled">
+            <MudIcon Icon="@Icone" />
+        </MudAvatar>
+    </MudStack>
+    <MudChart T="double"
+              ChartType="ChartType.Line"
+              ChartSeries="_series"
+              ChartLabels="_rotulos"
+              ChartOptions="_opcoes"
+              Width="100%"
+              Height="70px" />
+</MudPaper>
+
+@code {
+    [Parameter, EditorRequired] public string Titulo { get; set; } = "";
+    [Parameter, EditorRequired] public string Valor { get; set; } = "";
+    [Parameter] public double Variacao { get; set; }
+    [Parameter] public string Icone { get; set; } = Icons.Material.Filled.Info;
+    [Parameter] public Color Cor { get; set; } = Color.Primary;
+    [Parameter] public double[] Tendencia { get; set; } = [];
+
+    private List<ChartSeries<double>> _series = [];
+    private string[] _rotulos = [];
+    private LineChartOptions _opcoes = new();
+
+    private bool Positiva => Variacao >= 0;
+    private Color CorVariacao => Positiva ? Color.Success : Color.Error;
+    private string IconeVariacao => Positiva ? Icons.Material.Filled.TrendingUp : Icons.Material.Filled.TrendingDown;
+    private string TextoVariacao => $"{(Positiva ? "+" : "-")}{Math.Abs(Variacao):0.0}%".Replace('.', ',');
+
+    protected override void OnParametersSet()
+    {
+        _series = [new ChartSeries<double> { Name = Titulo, Data = Tendencia }];
+        _rotulos = Enumerable.Repeat("", Tendencia.Length).ToArray();
+        _opcoes = new LineChartOptions
+        {
+            ShowLegend = false,
+            ShowToolTips = false,
+            ShowDataMarkers = false,
+            XAxisLines = false,
+            YAxisLines = false,
+            LineStrokeWidth = 2,
+            InterpolationOption = InterpolationOption.NaturalSpline,
+            YAxisToStringFunc = _ => "",
+            ChartPalette = [$"var(--mud-palette-{Cor.ToString().ToLowerInvariant()})"],
+        };
+    }
+}

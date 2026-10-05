@@ -1,0 +1,31 @@
+<DashboardCard Titulo="Distribuição de Clientes" Subtitulo="Por segmento">
+    <MudStack AlignItems="AlignItems.Center">
+        <MudChart T="double"
+                  ChartType="ChartType.Donut"
+                  ChartSeries="_series"
+                  ChartLabels="Rotulos"
+                  ChartOptions="_opcoes"
+                  Width="260px"
+                  Height="260px">
+            <CustomGraphics>
+                <text x="50%" y="46%" text-anchor="middle" dominant-baseline="middle" fill="var(--mud-palette-text-secondary)" font-size="2.2">Total</text>
+                <text x="50%" y="56%" text-anchor="middle" dominant-baseline="middle" fill="var(--mud-palette-text-primary)" font-size="5" font-weight="700">@Total.ToString("N0").Replace(',', '.')</text>
+            </CustomGraphics>
+        </MudChart>
+    </MudStack>
+</DashboardCard>
+
+@code {
+    [Parameter, EditorRequired] public string[] Rotulos { get; set; } = [];
+    [Parameter, EditorRequired] public double[] Valores { get; set; } = [];
+
+    private List<ChartSeries<double>> _series = [];
+    private readonly DonutChartOptions _opcoes = new() { DonutRingRatio = 0.25 };
+
+    private double Total => Valores.Sum();
+
+    protected override void OnParametersSet()
+    {
+        _series = [new ChartSeries<double> { Name = "Clientes", Data = Valores }];
+    }
+}

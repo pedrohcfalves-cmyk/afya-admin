@@ -1,0 +1,18 @@
+<DashboardCard Titulo="Performance dos Projetos" Subtitulo="Progresso atual">
+    <MudStack Spacing="4">
+        @foreach (var projeto in Itens)
+        {
+            <MudStack Spacing="1">
+                <MudStack Row="true" Justify="Justify.SpaceBetween">
+                    <MudText Typo="Typo.body2">@projeto.Nome</MudText>
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">@projeto.Progresso%</MudText>
+                </MudStack>
+                <MudProgressLinear Value="projeto.Progresso" Max="100" Color="@projeto.Cor" Rounded="true" Size="Size.Medium" />
+            </MudStack>
+        }
+    </MudStack>
+</DashboardCard>
+
+@code {
+    [Parameter, EditorRequired] public IEnumerable<ProjetoDesempenho> Itens { get; set; } = [];
+}

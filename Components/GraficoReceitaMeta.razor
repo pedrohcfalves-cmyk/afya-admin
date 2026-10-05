@@ -1,0 +1,40 @@
+<DashboardCard Titulo="Receita x Meta" Subtitulo="Valores em mil R$">
+    <Acoes>
+        <SeletorPeriodo @bind-Valor="_periodo" @bind-Valor:after="Atualizar" Opcoes="DadosFake.Periodos" />
+    </Acoes>
+    <ChildContent>
+        <MudChart T="double"
+                  ChartType="ChartType.Line"
+                  ChartSeries="_series"
+                  ChartLabels="_rotulos"
+                  ChartOptions="_opcoes"
+                  Width="100%"
+                  Height="320px" />
+    </ChildContent>
+</DashboardCard>
+
+@code {
+    private string _periodo = "12 meses";
+    private List<ChartSeries<double>> _series = [];
+    private string[] _rotulos = [];
+
+    private readonly LineChartOptions _opcoes = new()
+    {
+        LineStrokeWidth = 3,
+        InterpolationOption = InterpolationOption.NaturalSpline,
+        ChartPalette = ["var(--mud-palette-primary)", "var(--mud-palette-warning)"],
+    };
+
+    protected override void OnInitialized() => Atualizar();
+
+    private void Atualizar()
+    {
+        var dados = DadosFake.ObterReceitaMeta(_periodo);
+        _rotulos = dados.Rotulos;
+        _series =
+        [
+            new ChartSeries<double> { Name = "Receita", Data = dados.Receita },
+            new ChartSeries<double> { Name = "Meta", Data = dados.Meta },
+        ];
+    }
+}

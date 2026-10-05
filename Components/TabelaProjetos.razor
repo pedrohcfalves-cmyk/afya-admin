@@ -1,0 +1,34 @@
+<DashboardCard Titulo="Projetos Recentes" Subtitulo="Acompanhamento dos principais projetos">
+    <MudTable T="ProjetoRecente" Items="Itens" Hover="true" Elevation="0" Breakpoint="Breakpoint.Sm">
+        <HeaderContent>
+            <MudTh>Projeto</MudTh>
+            <MudTh>Responsável</MudTh>
+            <MudTh>Status</MudTh>
+            <MudTh>Prazo</MudTh>
+            <MudTh>Progresso</MudTh>
+        </HeaderContent>
+        <RowTemplate Context="projeto">
+            <MudTd DataLabel="Projeto">@projeto.Nome</MudTd>
+            <MudTd DataLabel="Responsável">@projeto.Responsavel</MudTd>
+            <MudTd DataLabel="Status">
+                <MudChip T="string" Size="Size.Small" Color="@CorStatus(projeto.Status)">@projeto.Status</MudChip>
+            </MudTd>
+            <MudTd DataLabel="Prazo">@projeto.Prazo.ToString("dd/MM/yyyy")</MudTd>
+            <MudTd DataLabel="Progresso">
+                <MudProgressLinear Value="projeto.Progresso" Max="100" Color="@CorStatus(projeto.Status)" Rounded="true" />
+            </MudTd>
+        </RowTemplate>
+    </MudTable>
+</DashboardCard>
+
+@code {
+    [Parameter, EditorRequired] public IEnumerable<ProjetoRecente> Itens { get; set; } = [];
+
+    private static Color CorStatus(string status) => status switch
+    {
+        "Concluído" => Color.Success,
+        "Em andamento" => Color.Info,
+        "Atrasado" => Color.Error,
+        _ => Color.Default,
+    };
+}

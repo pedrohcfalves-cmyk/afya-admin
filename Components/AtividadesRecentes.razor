@@ -1,0 +1,21 @@
+<DashboardCard Titulo="Atividades Recentes" Subtitulo="Últimas movimentações da equipe">
+    <MudStack Spacing="3">
+        @foreach (var atividade in Itens)
+        {
+            <MudStack Row="true" Spacing="3" AlignItems="AlignItems.Start">
+                <MudAvatar Color="@atividade.Cor" Size="Size.Medium">
+                    <MudIcon Icon="@atividade.Icone" Size="Size.Small" />
+                </MudAvatar>
+                <MudStack Spacing="0">
+                    <MudText Typo="Typo.subtitle2">@atividade.Usuario</MudText>
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">@atividade.Descricao</MudText>
+                    <MudText Typo="Typo.caption" Color="Color.Secondary">@atividade.Tempo</MudText>
+                </MudStack>
+            </MudStack>
+        }
+    </MudStack>
+</DashboardCard>
+
+@code {
+    [Parameter, EditorRequired] public IEnumerable<Atividade> Itens { get; set; } = [];
+}

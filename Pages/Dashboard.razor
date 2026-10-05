@@ -2,5 +2,26 @@
 
 <PageTitle>Dashboard - Afya Admin</PageTitle>
 
-<MudText Typo="Typo.h4" GutterBottom="true">Dashboard</MudText>
-<MudText Class="mb-8">Projeto base criado. Os componentes do painel serão adicionados nas próximas etapas.</MudText>
+<MudGrid Spacing="3">
+    @foreach (var kpi in DadosFake.Kpis)
+    {
+        <MudItem xs="12" sm="6" lg="3">
+            <KpiCard Titulo="@kpi.Titulo" Valor="@kpi.Valor" Variacao="kpi.Variacao" Icone="@kpi.Icone" Cor="kpi.Cor" Tendencia="kpi.Tendencia" />
+        </MudItem>
+    }
+    <MudItem xs="12" lg="8">
+        <GraficoReceitaMeta />
+    </MudItem>
+    <MudItem xs="12" lg="4">
+        <GraficoClientes Rotulos="DadosFake.RotulosClientes" Valores="DadosFake.ValoresClientes" />
+    </MudItem>
+    <MudItem xs="12" md="6">
+        <DesempenhoProjetos Itens="DadosFake.Desempenho" />
+    </MudItem>
+    <MudItem xs="12" md="6">
+        <AtividadesRecentes Itens="DadosFake.Atividades" />
+    </MudItem>
+    <MudItem xs="12">
+        <TabelaProjetos Itens="DadosFake.ProjetosRecentes" />
+    </MudItem>
+</MudGrid>
