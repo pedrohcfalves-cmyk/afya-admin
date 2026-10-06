@@ -1,12 +1,12 @@
 <MudPaper Class="pa-4 mud-height-full">
     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Start">
         <MudStack Spacing="1">
-            <MudText Typo="Typo.body2" Color="Color.Secondary">@Titulo</MudText>
+            <MudText Typo="Typo.body2" Class="mud-text-secondary">@Titulo</MudText>
             <MudText Typo="Typo.h5">@Valor</MudText>
             <MudStack Row="true" Spacing="1" AlignItems="AlignItems.Center">
                 <MudIcon Icon="@IconeVariacao" Color="@CorVariacao" Size="Size.Small" />
                 <MudText Typo="Typo.caption" Color="@CorVariacao">@TextoVariacao</MudText>
-                <MudText Typo="Typo.caption" Color="Color.Secondary">vs. mês anterior</MudText>
+                <MudText Typo="Typo.caption" Class="mud-text-secondary">vs. mês anterior</MudText>
             </MudStack>
         </MudStack>
         <MudAvatar Color="@Cor" Variant="Variant.Filled">
